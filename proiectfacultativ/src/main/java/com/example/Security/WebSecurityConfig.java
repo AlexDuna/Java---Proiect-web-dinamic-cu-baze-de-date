@@ -42,9 +42,6 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth->auth
                         .requestMatchers("/register", "/process_register", "/login", "/").permitAll()
                         .requestMatchers("/masini/view",
-                        "/masini/masini-by-an-fabricatie",
-                                "/masini/masini-by-putere",
-                                "/masini/masini-by-putere",
                                 "/masini/filtreaza").permitAll().anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .formLogin(login->login

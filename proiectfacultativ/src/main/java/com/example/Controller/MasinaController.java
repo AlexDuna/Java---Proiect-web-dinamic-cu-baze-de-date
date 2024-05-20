@@ -80,35 +80,25 @@ public class MasinaController {
     public String filtreazaMasini(
             @RequestParam(value = "nume", required = false) String marca,
             @RequestParam(value = "putere", required = false) Integer putere,
-            @RequestParam(value = "an_fabricatie", required = false) Integer anFabricatie,
+            @RequestParam(value = "anFabricatie", required = false) Integer anFabricatie,
             Model model) {
-
         List<Masina> masini;
 
-        // Verificăm fiecare parametru și apelăm metodele de căutare corespunzătoare în funcție de parametrii furnizați
         if (marca != null && putere != null && anFabricatie != null) {
-            // Toate cele trei câmpuri sunt completate
             masini = masinaService.findMasiniByMarcaAndPutereAndAnFabricatie(marca, putere, anFabricatie);
         } else if (marca != null && putere != null) {
-            // Căutare după marca și putere
             masini = masinaService.findMasiniByMarcaAndPutere(marca, putere);
         } else if (marca != null && anFabricatie != null) {
-            // Căutare după marca și anul de fabricație
             masini = masinaService.findMasiniByMarcaAndAnFabricatie(marca, anFabricatie);
         } else if (putere != null && anFabricatie != null) {
-            // Căutare după putere și anul de fabricație
             masini = masinaService.findMasiniByPutereAndAnFabricatie(putere, anFabricatie);
         } else if (marca != null) {
-            // Căutare după marca
             masini = masinaService.findMasiniByMarca(marca);
         } else if (putere != null) {
-            // Căutare după putere
             masini = masinaService.findMasiniByPutereMaiMareDecat(putere);
         } else if (anFabricatie != null) {
-            // Căutare după anul de fabricație
             masini = masinaService.findMasiniByAnFabricatie(anFabricatie);
         } else {
-            // Dacă nu sunt furnizate criterii de filtrare, afișăm toate mașinile
             masini = masinaService.findAllMasini();
         }
 

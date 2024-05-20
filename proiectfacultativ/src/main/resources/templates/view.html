@@ -7,109 +7,30 @@
 
 <body>
 
-    <div class="container">
-        <div>
-            <p>Welcome <b><span th:text="${fullName}"></span></b></p>
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out" />
-            </form>
-        </div>
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Nr Inmatriculare</th>
-                <th>Marca</th>
-                <th>Model</th>
-                <th>Culoare</th>
-                <th>An Fabricatie</th>
-                <th>Capacitate</th>
-                <th>Combustibil</th>
-                <th>Putere</th>
-                <th>Cuplu</th>
-                <th>Volum Portbagaj</th>
-                <th>Pret</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="masina : ${masini}">
-                <td th:text="${masina.nrInmatriculare}"></td>
-                <td th:text="${masina.marca}"></td>
-                <td th:text="${masina.model}"></td>
-                <td th:text="${masina.culoare}"></td>
-                <td th:text="${masina.an_fabricatie}"></td>
-                <td th:text="${masina.capacitate}"></td>
-                <td th:text="${masina.combustibil}"></td>
-                <td th:text="${masina.putere}"></td>
-                <td th:text="${masina.cuplu}"></td>
-                <td th:text="${masina.volum_portbagaj}"></td>
-                <td th:text="${masina.pret}"></td>
-
-            </tr>
-
-
-            </tbody>
-        </table>
-
-        <form th:action="@{/masini/filtreaza}" method="get">
-            <div class="form-row">
-                <div class="form-group col-md-4">
-                    <input type="text" name="nume" class="form-control" placeholder="Nume">
-                </div>
-                <div class="form-group col-md-4">
-                    <input type="number" name="putere" class="form-control" placeholder="Putere mai mare decât">
-                </div>
-                <div class="form-group col-md-4">
-                    <input type="number" name="anFabricatie" class="form-control" placeholder="An de fabricație">
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Caută</button>
+<div class="container">
+    <div>
+        <p>Welcome <b><span th:text="${fullName}"></span></b></p>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out" />
         </form>
-
-        <form th:action="@{/masini/add}" method="post" class="mt-4">
-            <!-- Form fields for car details -->
-            <div class="form-group">
-                <input type="text" name="nrInmatriculare" placeholder="Nr Inmatriculare" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="text" name="marca" placeholder="Marca" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="text" name="model" placeholder="Model" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="text" name="culoare" placeholder="Culoare" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="number" name="an_fabricatie" placeholder="An fabricatie" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="number" name="capacitate" placeholder="Capacitate" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="text" name="combustibil" placeholder="Combustibil" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="number" name="putere" placeholder="Putere" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="number" name="cuplu" placeholder="Cuplu" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="number" name="volum_portbagaj" placeholder="Volum Portbagaj" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="number" name="pret" placeholder="Pret" class="form-control">
-            </div>
-            <!-- Other form fields here -->
-            <button type="submit" class="btn btn-primary">Add Car</button>
-        </form>
-        <form th:action="@{/masini/delete}" method="post" class="mt-4">
-            <div class="form-group">
-                <input type="text" name="nrInmatriculare" placeholder="Nr Inmatriculare" class="form-control">
-                <button type="submit" class="btn btn-danger">Delete</button>
-            </div>
-        </form>
-
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Nr Inmatriculare</th>
+            <th>Marca</th>
+            <th>Model</th>
+            <th>Culoare</th>
+            <th>An Fabricatie</th>
+            <th>Capacitate</th>
+            <th>Combustibil</th>
+            <th>Putere</th>
+            <th>Cuplu</th>
+            <th>Volum Portbagaj</th>
+            <th>Pret</th>
+        </tr>
+        </thead>
+        <tbody>
         <tr th:each="masina : ${masini}">
             <td th:text="${masina.nrInmatriculare}"></td>
             <td th:text="${masina.marca}"></td>
@@ -122,46 +43,125 @@
             <td th:text="${masina.cuplu}"></td>
             <td th:text="${masina.volum_portbagaj}"></td>
             <td th:text="${masina.pret}"></td>
-            <td>
-                <form th:action="@{/masini/update}" method="post">
-                    <input type="hidden" name="nrInmatriculare" th:value="${masina.nrInmatriculare}" />
-                    <div class="form-group">
-                        <input type="text" name="marca" th:value="${masina.marca}" placeholder="Marca" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="model" th:value="${masina.model}" placeholder="Model" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="culoare" th:value="${masina.culoare}" placeholder="Culoare" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" name="an_fabricatie" th:value="${masina.an_fabricatie}" placeholder="An fabricatie" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" name="capacitate" th:value="${masina.capacitate}" placeholder="Capacitate" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="text" name="combustibil" th:value="${masina.combustibil}" placeholder="Combustibil" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" name="putere" th:value="${masina.putere}" placeholder="Putere" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" name="cuplu" th:value="${masina.cuplu}" placeholder="Cuplu" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" name="volum_portbagaj" th:value="${masina.volum_portbagaj}" placeholder="Volum portbagaj" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <input type="number" name="pret" th:value="${masina.pret}" placeholder="Pret" class="form-control">
-                    </div>
-                    <button type="submit" class="btn btn-info">Update</button>
-                </form>
-            </td>
+
         </tr>
 
 
-    </div>
+        </tbody>
+    </table>
+
+    <form th:action="@{/masini/filtreaza}" method="get">
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <input type="text" name="nume" class="form-control" placeholder="Marca">
+            </div>
+            <div class="form-group col-md-4">
+                <input type="number" name="putere" class="form-control" placeholder="Putere mai mare decât">
+            </div>
+            <div class="form-group col-md-4">
+                <input type="number" name="anFabricatie" class="form-control" placeholder="An de fabricație">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Caută</button>
+    </form>
+
+    <form th:action="@{/masini/add}" method="post" class="mt-4">
+        <!-- Form fields for car details -->
+        <div class="form-group">
+            <input type="text" name="nrInmatriculare" placeholder="Nr Inmatriculare" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" name="marca" placeholder="Marca" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" name="model" placeholder="Model" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" name="culoare" placeholder="Culoare" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="number" name="an_fabricatie" placeholder="An fabricatie" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="number" name="capacitate" placeholder="Capacitate" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="text" name="combustibil" placeholder="Combustibil" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="number" name="putere" placeholder="Putere" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="number" name="cuplu" placeholder="Cuplu" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="number" name="volum_portbagaj" placeholder="Volum Portbagaj" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="number" name="pret" placeholder="Pret" class="form-control">
+        </div>
+        <!-- Other form fields here -->
+        <button type="submit" class="btn btn-primary">Add Car</button>
+    </form>
+    <form th:action="@{/masini/delete}" method="post" class="mt-4">
+        <div class="form-group">
+            <input type="text" name="nrInmatriculare" placeholder="Nr Inmatriculare" class="form-control">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+    </form>
+
+    <tr th:each="masina : ${masini}">
+        <td th:text="${masina.nrInmatriculare}"></td>
+        <td th:text="${masina.marca}"></td>
+        <td th:text="${masina.model}"></td>
+        <td th:text="${masina.culoare}"></td>
+        <td th:text="${masina.an_fabricatie}"></td>
+        <td th:text="${masina.capacitate}"></td>
+        <td th:text="${masina.combustibil}"></td>
+        <td th:text="${masina.putere}"></td>
+        <td th:text="${masina.cuplu}"></td>
+        <td th:text="${masina.volum_portbagaj}"></td>
+        <td th:text="${masina.pret}"></td>
+        <td>
+            <form th:action="@{/masini/update}" method="post">
+                <input type="hidden" name="nrInmatriculare" th:value="${masina.nrInmatriculare}" />
+                <div class="form-group">
+                    <input type="text" name="marca" th:value="${masina.marca}" placeholder="Marca" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="model" th:value="${masina.model}" placeholder="Model" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="culoare" th:value="${masina.culoare}" placeholder="Culoare" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="number" name="an_fabricatie" th:value="${masina.an_fabricatie}" placeholder="An fabricatie" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="number" name="capacitate" th:value="${masina.capacitate}" placeholder="Capacitate" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="combustibil" th:value="${masina.combustibil}" placeholder="Combustibil" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="number" name="putere" th:value="${masina.putere}" placeholder="Putere" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="number" name="cuplu" th:value="${masina.cuplu}" placeholder="Cuplu" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="number" name="volum_portbagaj" th:value="${masina.volum_portbagaj}" placeholder="Volum portbagaj" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="number" name="pret" th:value="${masina.pret}" placeholder="Pret" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-info">Update</button>
+            </form>
+        </td>
+    </tr>
+
+
+</div>
 
 </body>
 
