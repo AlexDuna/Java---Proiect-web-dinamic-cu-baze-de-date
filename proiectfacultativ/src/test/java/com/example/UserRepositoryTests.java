@@ -25,8 +25,8 @@ public class UserRepositoryTests {
         User user = new User();
         user.setUsername("username");
         user.setPassword("userpassword");
-        user.setFirstName("FirstName");
-        user.setLastName("LastName");
+        user.setFirst_name("FirstName");
+        user.setLast_name("LastName");
         user.setRole("USER");
 
         User savedUser=repo.save(user);

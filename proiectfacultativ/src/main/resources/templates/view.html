@@ -9,10 +9,8 @@
 
     <div class="container">
         <div>
+            <p>Welcome <b><span th:text="${fullName}"></span></b></p>
             <form th:action="@{/logout}" method="post">
-                <p>
-                    Welcome <b><span sec:authentication="principal.fullName"></span></b>
-                </p>
                 <input type="submit" value="Sign Out" />
             </form>
         </div>
@@ -52,23 +50,19 @@
             </tbody>
         </table>
 
-        <form th:action="@{/masini/masini-by-marca}" method="get">
-            <input type="text" name="nume" placeholder="Nume">
-            <button type="submit">Caută</button>
-        </form>
-
-        <form th:action="@{/masini/masini-by-putere}" method="get" class="mt-4">
-            <div class="form-group">
-                <input type="number" name="putere" placeholder="Putere mai mare decât" class="form-control">
-                <button type="submit" class="btn btn-primary">Filtrare după Putere</button>
+        <form th:action="@{/masini/filtreaza}" method="get">
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <input type="text" name="nume" class="form-control" placeholder="Nume">
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="number" name="putere" class="form-control" placeholder="Putere mai mare decât">
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="number" name="anFabricatie" class="form-control" placeholder="An de fabricație">
+                </div>
             </div>
-        </form>
-
-        <form th:action="@{/masini/masini-by-an-fabricatie}" method="get" class="mt-4">
-            <div class="form-group">
-                <input type="number" name="anFabricatie" placeholder="An de fabricație" class="form-control">
-                <button type="submit" class="btn btn-primary">Filtrare după An de Fabricație</button>
-            </div>
+            <button type="submit" class="btn btn-primary">Caută</button>
         </form>
 
         <form th:action="@{/masini/add}" method="post" class="mt-4">

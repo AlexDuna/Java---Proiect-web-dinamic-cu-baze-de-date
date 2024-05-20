@@ -33,7 +33,7 @@
             <div class="form-group row">
                 <label class="col-4 col-form-label">First Name: </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{firstName}" class="form-control"
+                    <input type="text" th:field="*{first_name}" class="form-control"
                            required minlength="2" maxlength="20"/>
                 </div>
             </div>
@@ -41,7 +41,7 @@
             <div class="form-group row">
                 <label class="col-4 col-form-label">Last Name: </label>
                 <div class="col-8">
-                    <input type="text" th:field="*{lastName}" class="form-control"
+                    <input type="text" th:field="*{last_name}" class="form-control"
                            required minlength="2" maxlength="20" />
                 </div>
             </div>
@@ -58,7 +58,7 @@
             </div>
 
             <div>
-                <button type="submit" class="btn btn-primary">Sign Up</button>
+                <button type="submit" class="btn btn-secondary">Sign Up</button>
             </div>
         </div>
     </form>

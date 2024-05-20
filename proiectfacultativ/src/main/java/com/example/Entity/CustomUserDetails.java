@@ -5,28 +5,43 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Arrays;
 
 public class CustomUserDetails implements UserDetails {
-    private User user;
+    private String username;
+    private String password;
+    private String first_name;
+    private String last_name;
+    private List<GrantedAuthority> roles;
 
     public CustomUserDetails(User user) {
-        this.user = user;
+        this.username=user.getUsername();
+        this.password=user.getPassword();
+        this.first_name=user.getFirst_name();
+        this.last_name=user.getLast_name();
+        String role = user.getRole();
+        if (role == null || role.isEmpty()) {
+            throw new IllegalArgumentException("User role cannot be null or empty");
+        }
+        this.roles = Collections.singletonList(new SimpleGrantedAuthority(role));
     }
 
     @Override
-    public Collection<?extends GrantedAuthority>getAuthorities(){
-        return null;
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles;
     }
 
     @Override
-    public String getPassword(){
-        return user.getPassword();
+    public String getPassword() {
+        return this.password;
     }
 
     @Override
-    public String getUsername(){
-        return user.getUsername();
+    public String getUsername() {
+        return this.username;
     }
 
     @Override
@@ -49,8 +64,12 @@ public class CustomUserDetails implements UserDetails {
         return true;
     }
 
-    public String getFullName(){
-        return user.getFirstName() + " " + user.getLastName();
+    public String get_FullName(User user){
+        return user.getFirst_name() + " " + user.getLast_name();
+    }
+
+    public String getFullName() {
+        return this.first_name + " " + this.last_name;
     }
 }
 

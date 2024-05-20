@@ -59,4 +59,28 @@ public class MasinaService {
     public List<Masina> findMasiniByAnFabricatie(int anFabricatie) {
         return masinaRepository.findMasiniByAnFabricatie(anFabricatie);
     }
+
+
+
+
+
+
+
+    public List<Masina> findMasiniByMarcaAndPutereAndAnFabricatie(String marca, int putere, int anFabricatie) {
+        return masinaRepository.findMasiniByMarcaAndPutereAndAnFabricatie(marca, putere, anFabricatie);
+    }
+
+    public List<Masina> findMasiniByMarcaAndPutere(String marca, int putere) {
+        return masinaRepository.findMasiniByMarcaAndPutere(marca, putere);
+    }
+
+    public List<Masina> findMasiniByMarcaAndAnFabricatie(String marca, int anFabricatie) {
+        return masinaRepository.findMasiniByMarcaAndAnFabricatie(marca, anFabricatie);
+    }
+
+    public List<Masina> findMasiniByPutereAndAnFabricatie(int putere, int anFabricatie) {
+        return masinaRepository.findMasiniByPutereAndAnFabricatie(putere, anFabricatie);
+    }
+
+
 }

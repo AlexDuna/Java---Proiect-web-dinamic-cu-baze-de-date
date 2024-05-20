@@ -31,7 +31,13 @@ public class AppController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        user.setRole(user.getRole());
+        String role = user.getRole();
+        if (role == null || role.isEmpty()) {
+            throw new IllegalArgumentException("User role cannot be null or empty");
+        }
+        if (!role.startsWith("ROLE_")) {
+            user.setRole("ROLE_" + role);
+        }
 
         userRepo.save(user);
 
