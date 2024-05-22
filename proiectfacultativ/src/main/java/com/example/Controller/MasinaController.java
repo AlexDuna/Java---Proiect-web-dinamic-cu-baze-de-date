@@ -79,24 +79,24 @@ public class MasinaController {
     @GetMapping("/filtreaza")
     public String filtreazaMasini(
             @RequestParam(value = "nume", required = false) String marca,
-            @RequestParam(value = "putere", required = false) Integer putere,
-            @RequestParam(value = "anFabricatie", required = false) Integer anFabricatie,
+            @RequestParam(value = "putere",required = false) int putere,
+            @RequestParam(value = "anFabricatie",required = false) int anFabricatie,
             Model model) {
         List<Masina> masini;
 
-        if (marca != null && putere != null && anFabricatie != null) {
+        if (marca != null && putere != 0 && anFabricatie != 0) {
             masini = masinaService.findMasiniByMarcaAndPutereAndAnFabricatie(marca, putere, anFabricatie);
-        } else if (marca != null && putere != null) {
+        } else if (marca != null && putere != 0) {
             masini = masinaService.findMasiniByMarcaAndPutere(marca, putere);
-        } else if (marca != null && anFabricatie != null) {
+        } else if (marca != null && anFabricatie != 0) {
             masini = masinaService.findMasiniByMarcaAndAnFabricatie(marca, anFabricatie);
-        } else if (putere != null && anFabricatie != null) {
+        } else if (putere != 0 && anFabricatie != 0) {
             masini = masinaService.findMasiniByPutereAndAnFabricatie(putere, anFabricatie);
         } else if (marca != null) {
             masini = masinaService.findMasiniByMarca(marca);
-        } else if (putere != null) {
+        } else if (putere != 0) {
             masini = masinaService.findMasiniByPutereMaiMareDecat(putere);
-        } else if (anFabricatie != null) {
+        } else if (anFabricatie != 0) {
             masini = masinaService.findMasiniByAnFabricatie(anFabricatie);
         } else {
             masini = masinaService.findAllMasini();
