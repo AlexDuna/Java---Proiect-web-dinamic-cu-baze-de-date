@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -35,23 +36,29 @@ public class WebSecurityConfig {
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-
     @Bean
-    SecurityFilterChain configurer(HttpSecurity http) throws Exception{
+    SecurityFilterChain configurer(HttpSecurity http, AuthenticationSuccessHandler successHandler) throws Exception{
 
         http.authorizeHttpRequests(auth->auth
                         .requestMatchers("/register", "/process_register", "/login", "/").permitAll()
-                        .requestMatchers("/masini/view",
-                                "/masini/filtreaza").permitAll().anyRequest().authenticated())
+                        .requestMatchers("/masini/user").hasAuthority("ROLE_USER")
+                        .requestMatchers("/masini/view").hasAuthority("ROLE_EDITOR")
+                .anyRequest().authenticated())
                 .httpBasic(withDefaults())
                 .formLogin(login->login
                         .loginPage("/login")
                         .usernameParameter("username")
-                        .defaultSuccessUrl("/masini/view")
+                        .successHandler(successHandler)
                         .permitAll()
                 )
                 .logout(logout->logout.logoutSuccessUrl("/").permitAll());
 
         return http.build();
     }
+
+    @Bean
+    public AuthenticationSuccessHandler successHandler() {
+        return new CustomAuthenticationSuccessHandler();
+    }
+
 }

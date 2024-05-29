@@ -2,10 +2,12 @@ package com.example.Controller;
 
 import com.example.Entity.CustomUserDetails;
 import com.example.Entity.Masina;
+import com.example.Entity.MasinaFiltres;
 import com.example.Service.MasinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -19,14 +21,19 @@ import java.util.List;
 public class MasinaController {
     @Autowired
     private MasinaService masinaService;
-
+    @GetMapping("/user")
+    public String userPage(Model model, @AuthenticationPrincipal UserDetails currentUser) {
+        if (currentUser != null) {
+            model.addAttribute("fullName", currentUser.getUsername());
+        }
+        List<Masina>masini = masinaService.findAllMasini();
+        model.addAttribute("masini",masini);
+        return "user";
+    }
     @GetMapping("/view")
-    public String getMasini(Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            String fullName = userDetails.getFullName();
-            model.addAttribute("fullName", fullName);
+    public String getMasini(Model model,@AuthenticationPrincipal UserDetails currentUser){
+        if (currentUser != null) {
+            model.addAttribute("fullName", currentUser.getUsername());
         }
         List<Masina>masini = masinaService.findAllMasini();
         model.addAttribute("masini",masini);
@@ -55,56 +62,20 @@ public class MasinaController {
         return "redirect:/masini/view";
     }
 
-    @GetMapping("/masini-by-marca")
-    public String getMasiniByNume(@RequestParam("nume") String marca, Model model) {
-        List<Masina> masini = masinaService.findMasiniByMarca(marca);
+   @GetMapping("/filtered")
+   public String getFilteredCars(@ModelAttribute MasinaFiltres filters, Model model)
+   {
+       List<Masina> masini = masinaService.findCarsByFilters(filters);
+       model.addAttribute("masini", masini);
+       return "view";
+   }
+
+    @GetMapping("/userfiltered")
+    public String getUserFilteredCars(@ModelAttribute MasinaFiltres filters, Model model)
+    {
+        List<Masina> masini = masinaService.findCarsByFilters(filters);
         model.addAttribute("masini", masini);
-        return "view";
+        return "user";
     }
-
-    @GetMapping("/masini-by-putere")
-    public String getMasiniByPutereMaiMareDecat(@RequestParam("putere") int putere, Model model) {
-        List<Masina> masini = masinaService.findMasiniByPutereMaiMareDecat(putere);
-        model.addAttribute("masini", masini);
-        return "view";
-    }
-
-    @GetMapping("/masini-by-an-fabricatie")
-    public String getMasiniByAnFabricatie(@RequestParam("anFabricatie") int anFabricatie, Model model) {
-        List<Masina> masini = masinaService.findMasiniByAnFabricatie(anFabricatie);
-        model.addAttribute("masini", masini);
-        return "view";
-    }
-
-    @GetMapping("/filtreaza")
-    public String filtreazaMasini(
-            @RequestParam(value = "nume", required = false) String marca,
-            @RequestParam(value = "putere",required = false) int putere,
-            @RequestParam(value = "anFabricatie",required = false) int anFabricatie,
-            Model model) {
-        List<Masina> masini;
-
-        if (marca != null && putere != 0 && anFabricatie != 0) {
-            masini = masinaService.findMasiniByMarcaAndPutereAndAnFabricatie(marca, putere, anFabricatie);
-        } else if (marca != null && putere != 0) {
-            masini = masinaService.findMasiniByMarcaAndPutere(marca, putere);
-        } else if (marca != null && anFabricatie != 0) {
-            masini = masinaService.findMasiniByMarcaAndAnFabricatie(marca, anFabricatie);
-        } else if (putere != 0 && anFabricatie != 0) {
-            masini = masinaService.findMasiniByPutereAndAnFabricatie(putere, anFabricatie);
-        } else if (marca != null) {
-            masini = masinaService.findMasiniByMarca(marca);
-        } else if (putere != 0) {
-            masini = masinaService.findMasiniByPutereMaiMareDecat(putere);
-        } else if (anFabricatie != 0) {
-            masini = masinaService.findMasiniByAnFabricatie(anFabricatie);
-        } else {
-            masini = masinaService.findAllMasini();
-        }
-
-        model.addAttribute("masini", masini);
-        return "view";
-    }
-
 
 }

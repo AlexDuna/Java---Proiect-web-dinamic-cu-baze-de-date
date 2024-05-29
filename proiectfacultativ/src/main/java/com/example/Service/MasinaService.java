@@ -1,11 +1,17 @@
 package com.example.Service;
 
 import com.example.Entity.Masina;
+import com.example.Entity.MasinaFiltres;
 import com.example.Repository.MasinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import jakarta.persistence.criteria.Predicate;
+import org.springframework.data.jpa.domain.Specification;
+
 
 @Service
 public class MasinaService {
@@ -47,40 +53,49 @@ public class MasinaService {
     public void deleteMasina(String nrInmatriculare){
         masinaRepository.deleteById(nrInmatriculare);
     }
+    
+    public List<Masina> findCarsByFilters(MasinaFiltres filters)
+    {
+        Specification<Masina> spec = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
 
-    public List<Masina> findMasiniByMarca(String marca) {
-        return masinaRepository.findMasiniByMarca(marca);
+            if (filters.getNrInmatriculare() != null && !filters.getNrInmatriculare().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("nrInmatriculare"), filters.getNrInmatriculare()));
+            }
+            if (filters.getMarca() != null && !filters.getMarca().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("marca"), filters.getMarca()));
+            }
+            if (filters.getModel() != null && !filters.getModel().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("model"), filters.getModel()));
+            }
+            if (filters.getCuloare() != null && !filters.getCuloare().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("culoare"), filters.getCuloare()));
+            }
+            if (filters.getAn_fabricatie() != 0) {
+                predicates.add(criteriaBuilder.equal(root.get("an_fabricatie"), filters.getAn_fabricatie()));
+            }
+            if (filters.getCapacitate() != 0) {
+                predicates.add(criteriaBuilder.equal(root.get("capacitate"), filters.getCapacitate()));
+            }
+            if (filters.getCombustibil() != null && !filters.getCombustibil().isEmpty()) {
+                predicates.add(criteriaBuilder.equal(root.get("combustibil"), filters.getCombustibil()));
+            }
+            if (filters.getPutere() != 0) {
+                predicates.add(criteriaBuilder.equal(root.get("putere"), filters.getPutere()));
+            }
+            if (filters.getCuplu() != 0) {
+                predicates.add(criteriaBuilder.equal(root.get("cuplu"), filters.getCuplu()));
+            }
+            if (filters.getVolum_portbagaj() != 0) {
+                predicates.add(criteriaBuilder.equal(root.get("volum_portbagaj"), filters.getVolum_portbagaj()));
+            }
+            if (filters.getPret() != 0.0) {
+                predicates.add(criteriaBuilder.equal(root.get("pret"), filters.getPret()));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+        };
+        return masinaRepository.findAll(spec);
     }
-
-    public List<Masina> findMasiniByPutereMaiMareDecat(int putere) {
-        return masinaRepository.findMasiniByPutereMaiMareDecat(putere);
-    }
-
-    public List<Masina> findMasiniByAnFabricatie(int anFabricatie) {
-        return masinaRepository.findMasiniByAnFabricatie(anFabricatie);
-    }
-
-
-
-
-
-
-
-    public List<Masina> findMasiniByMarcaAndPutereAndAnFabricatie(String marca, int putere, int anFabricatie) {
-        return masinaRepository.findMasiniByMarcaAndPutereAndAnFabricatie(marca, putere, anFabricatie);
-    }
-
-    public List<Masina> findMasiniByMarcaAndPutere(String marca, int putere) {
-        return masinaRepository.findMasiniByMarcaAndPutere(marca, putere);
-    }
-
-    public List<Masina> findMasiniByMarcaAndAnFabricatie(String marca, int anFabricatie) {
-        return masinaRepository.findMasiniByMarcaAndAnFabricatie(marca, anFabricatie);
-    }
-
-    public List<Masina> findMasiniByPutereAndAnFabricatie(int putere, int anFabricatie) {
-        return masinaRepository.findMasiniByPutereAndAnFabricatie(putere, anFabricatie);
-    }
-
 
 }
